@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/nav_documents"
+        android:title="Document"
+        android:icon="@drawable/baseline_edit_document_24"/>
+
+    <item
+        android:id="@+id/nav_tasks"
+        android:title="Tasks"
+        android:icon="@drawable/tasks_icon"/>
+
+    <item
+        android:id="@+id/nav_home"
+        android:title="Home"
+        android:icon="@drawable/baseline_home_filled_24"/>
+
+
+    <item
+        android:id="@+id/nav_client"
+        android:title="Clients"
+        android:icon="@drawable/leads_icon"/>
+
+    <item
+        android:id="@+id/nav_more"
+        android:title="More"
+        android:enabled="true"
+        android:icon="@drawable/outline_more_vert_24"/>
+</menu>
