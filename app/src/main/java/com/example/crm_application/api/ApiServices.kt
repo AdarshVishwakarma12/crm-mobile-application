@@ -1,5 +1,6 @@
 package com.example.crm_application.api
 
+import com.example.crm_application.ui.leads.LeadsData
 import retrofit2.http.*
 import retrofit2.Response
 
@@ -29,6 +30,9 @@ interface ApiServices {
     // Sends the Authorization header with the token
     @GET("api/dashboard/")
     suspend fun getDashboard(@Header("Authorization") token: String): Response<DashboardResponse>
+
+    @GET("api/clients/")
+    suspend fun getLeadsList(@Header("Authorization") token: String): Response<List<LeadsData>>
 }
 
 // ==== ---- Dashboard data class ---- ====

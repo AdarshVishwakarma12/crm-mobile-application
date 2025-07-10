@@ -2,9 +2,12 @@ package com.example.crm_application.ui.auth
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -23,6 +26,7 @@ class SignupActivity : AppCompatActivity() {
     private lateinit var signUpButton: Button
     private lateinit var errorText: TextView
     private lateinit var loginText: TextView
+    private lateinit var progressBar: ProgressBar
 
     private val viewModel: AuthViewModel by viewModels()
 
@@ -37,6 +41,7 @@ class SignupActivity : AppCompatActivity() {
         signUpButton = findViewById(R.id.signupButton)
         errorText = findViewById(R.id.errorTextSignUp)
         loginText = findViewById(R.id.loginText)
+        progressBar = findViewById(R.id.signUpProgress)
 
         loginText.setOnClickListener {
             val intent = Intent(this, LoginActivity::class.java)
@@ -48,7 +53,22 @@ class SignupActivity : AppCompatActivity() {
             val email = userEmailEdit.text.toString()
             val password = userPasswordEdit.text.toString()
 
-            Toast.makeText(this, "Clicked Signup button", Toast.LENGTH_SHORT).show()
+            if(checkValididity(username, email, password)) {
+                signUpButton.isEnabled = false
+                progressBar.visibility = View.VISIBLE
+
+                // Using Handler postdelayed
+                Handler(Looper.getMainLooper()).postDelayed({
+
+                    // Operation to perform
+                    Toast.makeText(this, "Clicked Signup button", Toast.LENGTH_SHORT).show()
+
+                    // what to do after?
+                    signUpButton.isEnabled = true
+                    progressBar.visibility = View.GONE
+                }, 1000)
+            }
+
             // viewModel.signup(username, password)
         }
 
@@ -68,5 +88,9 @@ class SignupActivity : AppCompatActivity() {
 //            errorText.text = err ?: ""
 //            errorText.visibility = View.VISIBLE
 //        })
+    }
+
+    private fun checkValididity(param1: String, param2: String, param3: String) : Boolean{
+        return true
     }
 }

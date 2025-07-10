@@ -2,9 +2,12 @@ package com.example.crm_application.ui.auth
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -23,6 +26,7 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var loginButton: Button
     private lateinit var errorText: TextView
     private lateinit var signUpText: TextView
+    private lateinit var progressBar: ProgressBar
 
     private val viewModel: AuthViewModel by viewModels()
 
@@ -36,12 +40,29 @@ class LoginActivity : AppCompatActivity() {
         loginButton = findViewById(R.id.loginButton)
         errorText = findViewById(R.id.errorTextLogIn)
         signUpText = findViewById(R.id.signUpText)
+        progressBar = findViewById(R.id.loginProgress)
 
 
         loginButton.setOnClickListener {
+
             val username = userNameEdit.text.toString()
             val password = userPasswordEdit.text.toString()
-            viewModel.login(username, password)
+
+            if(checkValididity(username, password)) {
+                loginButton.isEnabled = false
+                progressBar.visibility = View.VISIBLE
+
+                // Using Handler postdelayed
+                Handler(Looper.getMainLooper()).postDelayed({
+
+                    // Operation to perform
+                    viewModel.login(username, password)
+
+                    // what to do after?
+                    loginButton.isEnabled = true
+                    progressBar.visibility = View.GONE
+                }, 1000)
+            }
         }
 
         signUpText.setOnClickListener {
@@ -68,5 +89,9 @@ class LoginActivity : AppCompatActivity() {
             errorText.text = err ?: ""
             errorText.visibility = View.VISIBLE
         })
+    }
+
+    private fun checkValididity(param1: String, param2: String) : Boolean {
+        return true;
     }
 }

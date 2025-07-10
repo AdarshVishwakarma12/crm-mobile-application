@@ -17,10 +17,10 @@ object RetrofitInstance {
 
     // Base url of Django Application
     // while using emulator
-    // private const val BASE_URL = "http://10.0.2.2:8000/"
+     private const val BASE_URL = "http://10.0.2.2:8000/"
 
     // while connecting with real device -> ipconfig getifaddr en0 && python manage.py runserver 0.0.0.0:8000
-    private const val BASE_URL = "http://192.168.226.102:8000/"
+//    private const val BASE_URL = "http://192.168.1.40:8000/"
 
     // while at development
 //    private const val BASE_URL = "https://ctrlcrm.pythonanywhere.com"
