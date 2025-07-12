@@ -77,4 +77,7 @@ dependencies {
     // Floating Action Button
     implementation("com.google.android.material:material:1.12.0")
 
+    // Google Login
+    implementation("com.google.android.gms:play-services-auth:20.7.0")
+
 }

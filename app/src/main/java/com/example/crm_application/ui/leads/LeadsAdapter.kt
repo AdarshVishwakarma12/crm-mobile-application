@@ -20,10 +20,10 @@ class LeadsAdapter(private val leads: List<LeadsData>) : RecyclerView.Adapter<Le
         holder: LeadViewHolder,
         position: Int
     ) {
+        Log.i("Adapter", "check me: $leads")
         val lead = leads[position]
-        Log.i("Adapter", "check me: $lead")
         holder.nameText.text = lead.name
-        holder.statusText.text = lead.email
+        holder.statusText.text = lead.phone
     }
 
     override fun getItemCount(): Int = leads.size

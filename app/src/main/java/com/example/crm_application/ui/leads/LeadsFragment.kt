@@ -35,20 +35,30 @@ class LeadsFragment : Fragment() {
         // Get Token from Shared Preference
         val prefs = requireContext().getSharedPreferences("app_prefs", 0)
         val token = prefs.getString("access_token", null)
+        val key = prefs.getString("key", null)
 
         if(!token.isNullOrEmpty()) {
+
             viewModel.loadLeads(token)
-            Log.i("LeadsFragment", "fragment: $")
+
+        } else if(!key.isNullOrEmpty()) {
+
+            viewModel.loadLeadsToken(key)
+
         } else {
+
             Toast.makeText(requireContext(), "Missing Token", Toast.LENGTH_SHORT).show()
+
         }
 
         viewModel.leads.observe(viewLifecycleOwner, Observer { leads ->
-            if(leads != null) {
-                Log.i("LeadsFragment", "At Leads it'n not null")
-                Log.i("LeadsFragment", "here's the list: $leads")
-                recyclerView.adapter = LeadsAdapter(leads)
+            leads?.let {
+                Log.i("LeadsFragment", "iteration: $it")
+                var adapter = LeadsAdapter(it)
+                recyclerView.adapter = adapter
+                Log.i("LeadsFragment", adapter.getItemCount().toString())
             }
+
         })
 
         viewModel.error.observe(viewLifecycleOwner, Observer { err -> {

@@ -223,6 +223,7 @@
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:src="@drawable/google_icon"
+                    android:id="@+id/googleSignIn"
                     android:background="@drawable/social_circle_bg"
                     android:layout_margin="8dp"
                     android:contentDescription="Google"

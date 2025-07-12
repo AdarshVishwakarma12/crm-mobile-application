@@ -42,8 +42,9 @@ class MainActivity : AppCompatActivity() {
         // Check authentication token
         val prefs = getSharedPreferences("app_prefs", MODE_PRIVATE)
         val token = prefs.getString("access_token", null)
+        val key = prefs.getString("key", null)
 
-        if (token.isNullOrEmpty()) {
+        if (token.isNullOrEmpty() and key.isNullOrEmpty()) {
             Toast.makeText(this, "Authentication error!", Toast.LENGTH_SHORT).show()
             startActivity(Intent(this, LoginActivity::class.java))
             finish()

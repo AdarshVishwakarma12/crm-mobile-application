@@ -1,5 +1,6 @@
 package com.example.crm_application.api
 
+import com.example.crm_application.ui.auth.GoogleLoginRequest
 import com.example.crm_application.ui.leads.LeadsData
 import retrofit2.http.*
 import retrofit2.Response
@@ -9,6 +10,7 @@ import retrofit2.Response
 // And In response we GET back the 'access' token (JWT access token) and 'refresh' token
 data class LoginRequest(val username: String, val password: String)
 data class LoginResponse(val access: String, val refresh: String)
+data class GoogleLoginResponse(val key: String)
 
 // ---- ==== Data Classes for SIGNUP Request and Response ==== ----
 data class SignUpRequest(val username: String, val email: String, val password: String)
@@ -26,6 +28,10 @@ interface ApiServices {
     @POST("api/signup")
     suspend fun signup(@Body request: SignUpRequest): Response<SignUpResponse>
 
+    // Google Login
+    @POST("api/auth/android-google-login/")
+    suspend fun googleLogin(@Body request: GoogleLoginRequest): Response<GoogleLoginResponse>
+
     // Calls Protected Dashboard
     // Sends the Authorization header with the token
     @GET("api/dashboard/")
@@ -41,3 +47,4 @@ data class DashboardResponse(
     val totalTasks: Int,
     val totalRoles: Int
 )
+

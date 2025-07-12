@@ -25,4 +25,21 @@ class LeadsViewModel : ViewModel() {
             }
         }
     }
+
+    fun loadLeadsToken(key: String) {
+        viewModelScope.launch {
+            try {
+                val response = RetrofitInstance.api.getLeadsList("Token $key")
+
+                if(response.isSuccessful) {
+                    leads.value = response.body()
+                    Log.i("Model", "I am here ${leads.value}")
+                } else {
+                    error.value = "Failed: ${response.code()}"
+                }
+            } catch (e : Exception) {
+                error.value =  "Error: ${e.message}"
+            }
+        }
+    }
 }
