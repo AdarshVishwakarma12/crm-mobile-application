@@ -8,7 +8,6 @@ import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
-import android.widget.FrameLayout
 import android.widget.ImageButton
 import android.widget.ProgressBar
 import android.widget.TextView
@@ -17,10 +16,11 @@ import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
+import androidx.core.content.edit
 import com.example.crm_application.R
 import com.example.crm_application.viewmodel.AuthViewModel
-import androidx.core.content.edit
 import com.example.crm_application.MainActivity
+import com.example.crm_application.outlook.OutlookSingleAccountModeAuth
 import com.google.android.gms.auth.GoogleAuthUtil
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -37,6 +37,9 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var signUpText: TextView
     private lateinit var progressBar: ProgressBar
     private lateinit var googleSignIn: ImageButton
+    private lateinit var outlookSignIn: ImageButton
+
+    private lateinit var outlookAuth: OutlookSingleAccountModeAuth
 
     private val RC_SIGN_IN = 1001
 
@@ -49,7 +52,7 @@ class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.fragment_login) // or use activity_login.xml if that's your layout
+        setContentView(R.layout.fragment_login)
 
         userNameEdit = findViewById(R.id.emailEdit)
         userPasswordEdit = findViewById(R.id.passwordEdit)
@@ -58,7 +61,7 @@ class LoginActivity : AppCompatActivity() {
         signUpText = findViewById(R.id.signUpText)
         progressBar = findViewById(R.id.loginProgress)
         googleSignIn = findViewById(R.id.googleSignIn)
-
+        outlookSignIn = findViewById(R.id.outlookSignIn)
 
         // Token Based Authentication
         loginButton.setOnClickListener {
@@ -85,7 +88,7 @@ class LoginActivity : AppCompatActivity() {
             }
         }
 
-        // Session Based Authentication
+        // Session Based Authentication - Google
         googleSignIn.setOnClickListener {
 
             Toast.makeText(this, "Continue with Google", Toast.LENGTH_SHORT).show()
@@ -113,6 +116,44 @@ class LoginActivity : AppCompatActivity() {
 
             }, 1000)
 
+        }
+
+        // Session Based Authentication - Outlook
+        outlookAuth = OutlookSingleAccountModeAuth(this, this)
+
+        outlookAuth.initialize(
+            onInitialized = {
+                Log.d("Outlook", "MSAL Initialized")
+                // Optionally call callGraphApiSilent here
+            },
+            onError = { e ->
+                Log.e("Outlook", "Initialization Error: ${e.message}")
+            }
+        )
+
+        outlookSignIn.setOnClickListener {
+
+            Toast.makeText(this, "Outlook Login", Toast.LENGTH_SHORT).show()
+
+            loginButton.isEnabled = false
+            progressBar.visibility = View.VISIBLE
+
+            // Sign In
+            outlookAuth.signIn(
+                onSuccess = { result ->
+                    Log.d("Outlook", "Access Token: ${result.accessToken}")
+
+                    // Now send result.accessToken to your Django backend
+                    viewModel.outlookLogin(result.accessToken)
+                },
+                onError = { e ->
+                    Log.e("Outlook", "Sign-In Error: ${e.message}")
+                    Toast.makeText(this, "You're already LoggedIn!", Toast.LENGTH_SHORT).show()
+
+                    loginButton.isEnabled = true
+                    progressBar.visibility = View.GONE
+                }
+            )
         }
 
         signUpText.setOnClickListener {
@@ -143,6 +184,7 @@ class LoginActivity : AppCompatActivity() {
                 getSharedPreferences("app_prefs", MODE_PRIVATE)
                     .edit() {
                         putString("key", key)
+                        putBoolean("isMicrosoft", true)
                     }
 
                 Toast.makeText(this, "Login Successful", Toast.LENGTH_SHORT).show()
@@ -152,6 +194,25 @@ class LoginActivity : AppCompatActivity() {
 
             }
         })
+
+        viewModel.loginResponseOutlook.observe(this, Observer { response ->
+            response?.let {
+
+                Log.i("LoginActivity", response.toString())
+
+                val key = it.key
+                getSharedPreferences("app_prefs", MODE_PRIVATE)
+                    .edit {
+                        putString("key", key)
+                    }
+
+                Toast.makeText(this, "Login Successful", Toast.LENGTH_SHORT).show()
+                val mainActivityIntent = Intent(this, MainActivity::class.java)
+                startActivity(mainActivityIntent)
+                finish()
+            }
+        })
+
 
         viewModel.error.observe(this, Observer { err ->
             errorText.text = err ?: ""

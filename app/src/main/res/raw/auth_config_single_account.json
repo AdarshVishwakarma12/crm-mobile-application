@@ -1,0 +1,15 @@
+{
+  "client_id": "f7d73ee9-a261-4840-8f52-e415b172a67c",
+  "redirect_uri": "msalf7d73ee9-a261-4840-8f52-e415b172a67c://auth",
+  "authorities": [
+    {
+      "type": "AAD",
+      "audience": {
+        "type": "AzureADMultipleOrgs",
+        "tenant_id": "d55323ff-edbc-4561-b4ce-fb3614d3a917"
+      }
+    }
+  ],
+  "account_mode": "SINGLE",
+  "browser_safe_list_enabled": true
+}

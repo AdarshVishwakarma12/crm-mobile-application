@@ -8,10 +8,10 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="PLACEHOLDER" />
-                  <option name="mobileSdkAppId" value="" />
-                  <option name="projectId" value="" />
-                  <option name="projectNumber" value="" />
+                  <option name="appId" value="com.example.crm_application" />
+                  <option name="mobileSdkAppId" value="1:374936103331:android:39770cdd05c642ad535216" />
+                  <option name="projectId" value="crm-application-142fe" />
+                  <option name="projectNumber" value="374936103331" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />

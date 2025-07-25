@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.google.gms.google.services)
 }
 
 android {
@@ -46,6 +47,7 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
+    implementation(libs.firebase.auth)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -80,4 +82,17 @@ dependencies {
     // Google Login
     implementation("com.google.android.gms:play-services-auth:20.7.0")
 
+    // custom authentication system
+    implementation("com.google.firebase:firebase-auth:22.3.0")
+
+    // MSAL - Microsoft Authentication Library
+    implementation ("com.microsoft.identity.client:msal:5.+")
+    {
+        exclude(group = "io.opentelemetry")
+        exclude (group="com.microsoft.device.display")
+    }
+
+    implementation("io.opentelemetry:opentelemetry-api:1.31.0")
+
+    implementation("com.android.volley:volley:1.2.1")
 }

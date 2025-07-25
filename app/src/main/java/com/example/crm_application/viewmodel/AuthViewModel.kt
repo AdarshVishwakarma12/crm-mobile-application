@@ -10,8 +10,10 @@ import com.example.crm_application.api.GoogleLoginResponse
 // importing packages
 import com.example.crm_application.api.LoginRequest
 import com.example.crm_application.api.LoginResponse
+import com.example.crm_application.api.OutlookLoginResponse
 import com.example.crm_application.api.RetrofitInstance
 import com.example.crm_application.ui.auth.GoogleLoginRequest
+import com.example.crm_application.ui.auth.OutlookLoginRequest
 
 // Launch coroutines inside ViewModel (via ViewModelScope)
 import kotlinx.coroutines.launch
@@ -23,6 +25,7 @@ class AuthViewModel : ViewModel() {
     // Holds the response from '/login' API
     val loginResponse = MutableLiveData<LoginResponse?>()
     val loginResponseGoogle = MutableLiveData<GoogleLoginResponse>()
+    val loginResponseOutlook = MutableLiveData<OutlookLoginResponse>()
 
     // Holds error messages
     val error = MutableLiveData<String?>()
@@ -50,10 +53,8 @@ class AuthViewModel : ViewModel() {
 
     // Function will be call by 'LoginFragment' to start login Request by Google
     fun googleLogin(idToken: String) {
-
         viewModelScope.launch {
             try {
-
                 // suspend function -> executes asynchronously
                 val response = RetrofitInstance.api.googleLogin(
                     GoogleLoginRequest("google", idToken)
@@ -69,6 +70,27 @@ class AuthViewModel : ViewModel() {
             }
         }
     }
+
+    fun outlookLogin(idToken: String) {
+        viewModelScope.launch {
+            try {
+                // suspend function -> executes asynchronously
+                val response = RetrofitInstance.api.outlookLogin(
+                    OutlookLoginRequest("microsoft", idToken)
+                )
+
+                if (response.isSuccessful) {
+                    loginResponseOutlook.value = response.body()
+                } else {
+                    error.value = "Outlook login failed: ${response.code()} ${response.message()}"
+                }
+
+            } catch (e: Exception) {
+                error.value = "Error: ${e.message}"
+            }
+        }
+    }
+
 }
 
 // ---- ==== Getting DATA from other API's [Email Login] ==== ----
@@ -80,3 +102,7 @@ class AuthViewModel : ViewModel() {
 // ---- ==== Getting DATA from other API's [Google Login] ==== ----
 // curl -H "Authorization: Token 387f2a3ea907e34e0fc10165fe24920a0d8e75f5" \
 // http://192.168.226.102:8000/api/clients/
+
+// ---- ==== Getting DATA from other API's [Outlook Login] ==== ----
+//
+//

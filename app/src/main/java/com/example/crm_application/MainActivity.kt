@@ -45,7 +45,6 @@ class MainActivity : AppCompatActivity() {
         val key = prefs.getString("key", null)
 
         if (token.isNullOrEmpty() and key.isNullOrEmpty()) {
-            Toast.makeText(this, "Authentication error!", Toast.LENGTH_SHORT).show()
             startActivity(Intent(this, LoginActivity::class.java))
             finish()
             return

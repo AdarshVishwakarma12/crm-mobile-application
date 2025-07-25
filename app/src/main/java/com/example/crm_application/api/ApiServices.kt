@@ -1,6 +1,7 @@
 package com.example.crm_application.api
 
 import com.example.crm_application.ui.auth.GoogleLoginRequest
+import com.example.crm_application.ui.auth.OutlookLoginRequest
 import com.example.crm_application.ui.leads.LeadsData
 import retrofit2.http.*
 import retrofit2.Response
@@ -11,6 +12,7 @@ import retrofit2.Response
 data class LoginRequest(val username: String, val password: String)
 data class LoginResponse(val access: String, val refresh: String)
 data class GoogleLoginResponse(val key: String)
+data class OutlookLoginResponse(val key: String)
 
 // ---- ==== Data Classes for SIGNUP Request and Response ==== ----
 data class SignUpRequest(val username: String, val email: String, val password: String)
@@ -31,6 +33,10 @@ interface ApiServices {
     // Google Login
     @POST("api/auth/android-google-login/")
     suspend fun googleLogin(@Body request: GoogleLoginRequest): Response<GoogleLoginResponse>
+
+    // Outlook Login
+    @POST("api/auth/android-outlook-login/")
+    suspend fun outlookLogin(@Body request: OutlookLoginRequest): Response<OutlookLoginResponse>
 
     // Calls Protected Dashboard
     // Sends the Authorization header with the token
