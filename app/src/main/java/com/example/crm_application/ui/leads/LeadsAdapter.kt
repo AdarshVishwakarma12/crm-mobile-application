@@ -20,7 +20,6 @@ class LeadsAdapter(private val leads: List<LeadsData>) : RecyclerView.Adapter<Le
         holder: LeadViewHolder,
         position: Int
     ) {
-        Log.i("Adapter", "check me: $leads")
         val lead = leads[position]
         holder.nameText.text = lead.name
         holder.statusText.text = lead.phone
@@ -30,6 +29,6 @@ class LeadsAdapter(private val leads: List<LeadsData>) : RecyclerView.Adapter<Le
 
     class LeadViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val nameText: TextView = itemView.findViewById(R.id.leadNameTextView)
-        val statusText: TextView = itemView.findViewById(R.id.leadStatusTextView)
+        val statusText: TextView = itemView.findViewById(R.id.descriptionTextView)
     }
 }

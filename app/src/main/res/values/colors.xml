@@ -4,4 +4,11 @@
     <color name="white">#FFFFFFFF</color>
     <color name="green">#4fa852</color>
     <color name="dark_green">#27752A</color>
+
+    <color name="fabColor">#4CAF50</color>
+    <color name="nav_item_color">#FFFFFF</color>
+    <color name="colorPrimary">#1E1E2F</color>
+    <color name="colorPrimarySurface">#2B2B3D</color>
+
+    <color name="night_status_bg">#1F1F1F</color>
 </resources>

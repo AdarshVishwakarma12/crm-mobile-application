@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white"
+    android:background="?attr/colorOnPrimary"
+    android:fitsSystemWindows="true"
     android:fillViewport="true">
 
     <LinearLayout
@@ -22,7 +23,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:gravity="center"
-                android:orientation="vertical"> <!-- Changed from horizontal to vertical -->
+                android:orientation="vertical">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -53,7 +54,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Login to your account"
-                android:textColor="#888888"
+                android:textColor="?attr/colorAccent"
                 android:textSize="20sp"
                 android:textStyle="bold"
                 android:layout_marginBottom="16dp" />
@@ -90,7 +91,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Remember Me"
-                    android:textColor="#4E4E4E" />
+                    android:textColor="?attr/colorAccent" />
 
                 <View
                     android:layout_width="0dp"
@@ -102,7 +103,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Forgot Password?"
-                    android:textColor="#2E7D32"
+                    android:textColor="@drawable/button_bg_selector"
                     android:textSize="14sp" />
             </LinearLayout>
 
@@ -129,6 +130,7 @@
                     android:layout_height="48dp"
                     android:background="@drawable/button_bg_selector"
                     android:elevation="4dp"
+                    android:textStyle="bold"
                     android:text="Login"
                     android:textColor="@android:color/white" />
 
@@ -192,13 +194,13 @@
                     android:layout_height="1dp"
                     android:layout_weight="1"
                     android:layout_marginLeft="40dp"
-                    android:background="#DDDDDD" />
+                    android:background="?attr/colorAccent" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="  Or continue with  "
-                    android:textColor="#888888"
+                    android:textColor="?attr/colorAccent"
                     android:textSize="14sp" />
 
                 <View
@@ -206,7 +208,7 @@
                     android:layout_height="1dp"
                     android:layout_weight="1"
                     android:layout_marginRight="40dp"
-                    android:background="#DDDDDD" />
+                    android:background="?attr/colorAccent" />
             </LinearLayout>
 
             <!-- Social icons row -->

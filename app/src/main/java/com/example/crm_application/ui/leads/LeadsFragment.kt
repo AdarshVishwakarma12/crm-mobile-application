@@ -53,7 +53,6 @@ class LeadsFragment : Fragment() {
 
         viewModel.leads.observe(viewLifecycleOwner, Observer { leads ->
             leads?.let {
-                Log.i("LeadsFragment", "iteration: $it")
                 var adapter = LeadsAdapter(it)
                 recyclerView.adapter = adapter
                 Log.i("LeadsFragment", adapter.getItemCount().toString())

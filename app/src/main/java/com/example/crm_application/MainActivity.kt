@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import android.widget.LinearLayout
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -20,24 +21,29 @@ import com.example.crm_application.ui.documents.DocumentFragment
 import com.example.crm_application.ui.leads.LeadsFragment
 import com.example.crm_application.ui.tasks.TasksFragment
 import androidx.core.content.edit
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class MainActivity : AppCompatActivity() {
 
+    private lateinit var titleToolBar: TextView
     private lateinit var bottomNavigation: BottomNavigationView
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<LinearLayout>
     private lateinit var overlay: View
-    private lateinit var signOutButton: LinearLayout
+    private lateinit var signOutButton: FloatingActionButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
 
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.coordinator_layout)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
+//        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.coordinator_layout)) { v, insets ->
+//            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+//            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+//            insets
+//        }
+
+        // Set Title
+        titleToolBar = findViewById(R.id.toolbar)
 
         // Check authentication token
         val prefs = getSharedPreferences("app_prefs", MODE_PRIVATE)
@@ -51,49 +57,10 @@ class MainActivity : AppCompatActivity() {
         }
 
         // Initialize bottom navigation
-        bottomNavigation = findViewById(R.id.bottomNav)
+        bottomNavigation = findViewById(R.id.bottom_navigation)
 
-        // Initialize Bottom Sheet
-        val bottomSheet: LinearLayout = findViewById(R.id.bottom_sheet)
-        bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet)
-        bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
 
-        signOutButton = findViewById(R.id.signOutButton)
-
-        // Overlay setup
-        overlay = findViewById(R.id.bottom_sheet_overlay)
-
-        bottomSheetBehavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
-            override fun onStateChanged(bottomSheet: View, newState: Int) {
-                when (newState) {
-                    BottomSheetBehavior.STATE_EXPANDED,
-                    BottomSheetBehavior.STATE_HALF_EXPANDED -> {
-                        overlay.visibility = View.VISIBLE
-                        overlay.alpha = 1f
-                    }
-
-                    BottomSheetBehavior.STATE_COLLAPSED,
-                    BottomSheetBehavior.STATE_HIDDEN -> {
-                        overlay.visibility = View.GONE
-                        overlay.alpha = 0f
-                    }
-
-                    else -> {
-                        overlay.visibility = View.VISIBLE
-                        overlay.alpha = 1f
-                    }
-                }
-            }
-
-            override fun onSlide(bottomSheet: View, slideOffset: Float) {
-                // You can comment this out or leave it if you still want a slight fade effect.
-                // overlay.alpha = slideOffset.coerceIn(0f, 1f)
-            }
-        })
-
-        overlay.setOnClickListener {
-            bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-        }
+        signOutButton = findViewById(R.id.fab)
 
         // Set navigation item selected listener
         bottomNavigation.setOnItemSelectedListener { item ->
@@ -116,6 +83,7 @@ class MainActivity : AppCompatActivity() {
     private fun handleNavigationClick(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.nav_home -> {
+                titleToolBar.text = "Dashboard"
                 supportFragmentManager.commit {
                     replace(R.id.nav_host_fragment, DashboardFragment())
                 }
@@ -123,6 +91,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             R.id.nav_documents -> {
+                titleToolBar.text = "Documents"
                 supportFragmentManager.commit {
                     replace(R.id.nav_host_fragment, DocumentFragment())
                 }
@@ -130,6 +99,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             R.id.nav_tasks -> {
+                titleToolBar.text = "Tasks"
                 supportFragmentManager.commit {
                     replace(R.id.nav_host_fragment, TasksFragment())
                 }
@@ -137,6 +107,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             R.id.nav_client -> {
+                titleToolBar.text = "Clients"
                 supportFragmentManager.commit {
                     replace(R.id.nav_host_fragment, LeadsFragment())
                 }
@@ -144,7 +115,8 @@ class MainActivity : AppCompatActivity() {
             }
 
             R.id.nav_more -> {
-                toggleBottomSheet()
+                titleToolBar.text = "Account Setting"
+
                 false
             }
 

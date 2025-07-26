@@ -5,15 +5,9 @@
     android:layout_height="match_parent"
     tools:context=".ui.leads.LeadsFragment">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Leads Fragment" />
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/leadsRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
-
 
 </FrameLayout>

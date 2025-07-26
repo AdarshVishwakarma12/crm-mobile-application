@@ -16,7 +16,6 @@ class LeadsViewModel : ViewModel() {
                 val response = RetrofitInstance.api.getLeadsList("Bearer $token")
                 if(response.isSuccessful) {
                     leads.value = response.body()
-                    Log.i("MODEL", "I am here ${leads.value}")
                 } else {
                     error.value = "Failed: ${response.code()}"
                 }
@@ -33,7 +32,6 @@ class LeadsViewModel : ViewModel() {
 
                 if(response.isSuccessful) {
                     leads.value = response.body()
-                    Log.i("Model", "I am here ${leads.value}")
                 } else {
                     error.value = "Failed: ${response.code()}"
                 }
